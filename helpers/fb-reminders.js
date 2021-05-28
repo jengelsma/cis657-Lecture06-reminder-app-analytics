@@ -13,6 +13,16 @@ export function storeReminderItem(item) {
   firebase.database().ref('reminderData/').push(item);
 }
 
+export function updateReminder(item) {
+  const key = item.id;
+  delete item.id
+  firebase.database().ref(`reminderData/${key}`).set(item);
+}
+
+export function deleteReminder(item) {
+  firebase.database().ref(`reminderData/${item.id}`).remove();
+}
+
 export function setupReminderListener(updateFunc) {
   firebase
     .database()

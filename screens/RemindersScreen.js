@@ -1,5 +1,10 @@
 import { FlatList, StyleSheet, Text } from "react-native";
 import React, { useEffect, useState } from "react";
+import {
+  initReminderDb,
+  setupDataListener,
+  writeData,
+} from "../helpers/fb-reminders";
 
 import { CheckBox } from "react-native-elements";
 import { Feather } from "@expo/vector-icons";
@@ -44,6 +49,7 @@ const RemindersScreen = ({ route, navigation }) => {
             } else {
               setDisplay("All");
             }
+            writeData('score', { display });
           }}
         >
           <Text>{display}</Text>
@@ -66,6 +72,15 @@ const RemindersScreen = ({ route, navigation }) => {
       setReminders([...reminders, route.params].sort(comparator));
     }
   }, [route.params?.text]);
+
+  useEffect(() => {
+    try {
+      initReminderDb();
+    } catch (err) {
+      console.log(err);
+    }
+    setupDataListener('score');
+  }, []);
 
   const addRemindersNotDisplayed = (newArr) => {
     if (display === "Not Done") {

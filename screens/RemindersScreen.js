@@ -2,8 +2,8 @@ import { FlatList, StyleSheet, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   initReminderDb,
-  setupDataListener,
-  writeData,
+  setupReminderListener,
+  storeReminderItem,
 } from "../helpers/fb-reminders";
 
 import { CheckBox } from "react-native-elements";
@@ -24,7 +24,7 @@ const comparator = (item1, item2) => {
 const RemindersScreen = ({ route, navigation }) => {
   console.log(route.params);
 
-  const [reminders, setReminders] = useState(items.sort(comparator));
+  const [reminders, setReminders] = useState([]);
   const [display, setDisplay] = useState("All");
 
   const displayFilter = (item) => {
@@ -49,7 +49,6 @@ const RemindersScreen = ({ route, navigation }) => {
             } else {
               setDisplay("All");
             }
-            writeData('score', { display });
           }}
         >
           <Text>{display}</Text>
@@ -69,7 +68,7 @@ const RemindersScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (route.params?.text) {
-      setReminders([...reminders, route.params].sort(comparator));
+      storeReminderItem(route.params);
     }
   }, [route.params?.text]);
 
@@ -79,7 +78,9 @@ const RemindersScreen = ({ route, navigation }) => {
     } catch (err) {
       console.log(err);
     }
-    setupDataListener('score');
+    setupReminderListener((items) => {
+      setReminders(items.sort(comparator));
+    });
   }, []);
 
   const addRemindersNotDisplayed = (newArr) => {
@@ -129,7 +130,7 @@ const RemindersScreen = ({ route, navigation }) => {
 
   return (
     <FlatList
-      keyExtractor={(item) => item.text}
+      keyExtractor={(item) => item.id}
       data={reminders.filter(displayFilter)}
       renderItem={renderReminder}
     />

@@ -16,17 +16,35 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
+   "ios": {
+	      "supportsTablet": true,
+	      "bundleIdentifier": "edu.gvsu.reminders",
+	      "buildNumber": "1.0.0",
+	      "googleServicesFile": "./GoogleService-Info.plist"
+	    },
+	    "android": {
+	      "package": "edu.gvsu.reminders",
+	      "versionCode": 1,
+	      "googleServicesFile": "./google-services.json",
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/adaptive-icon.png",
+          "backgroundColor": "#FFFFFF"
+        }
+	    },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase":  {
+          "apiKey": "AIzaSyAx_MyZw4EmsPlEILi9gN8cvyYLioyho_s",
+          "authDomain": "reminders-28b24.firebaseapp.com",
+          "databaseURL": "https://reminders-28b24.firebaseio.com",
+          "projectId": "reminders-28b24",
+          "storageBucket": "reminders-28b24.appspot.com",
+          "messagingSenderId": "2578358800",
+          "appId": "1:2578358800:web:f1910e2b8364e7cd06e095",
+          "measurementId": "G-WZKHBKVZ76"
+        }
+      }  
     }
   }
 }
